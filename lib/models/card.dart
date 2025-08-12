@@ -37,7 +37,7 @@ class Card {
       'image_url': imageUrl,
       'rarity': rarity,
       'collection_id': collectionId,
-      'created_at': createdAt,
+      'created_at': createdAt.toIso8601String(),
     };
   }
 }
