@@ -40,4 +40,14 @@ class CardRepository {
       throw Exception('Não foi possível deletar a carta.');
     }
   }
+
+  Future<List<Card>> fetchCardsByRarity(String rarity) async {
+    try {
+      final response = await _supabase.from('cards').select().eq('rarity', rarity);
+      return response.map((json) => Card.fromJson(json)).toList();
+    } catch (e) {
+      print('Erro ao buscar cartas por raridade: $e');
+      throw Exception('Não foi possível buscar as cartas.');
+    }
+  }
 }
