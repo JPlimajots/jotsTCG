@@ -33,4 +33,37 @@ class UserCardRepository {
       throw Exception('Não foi possível adicionar a carta.');
     }
   }
+
+  Future<void> removeCardFromInventory(String userId, String cardId, {int quantity = 1}) async {
+    try {
+      final existingEntry = await _supabase
+          .from('user_cards')
+          .select('id, quantity')
+          .eq('user_id', userId)
+          .eq('card_id', cardId)
+          .maybeSingle();
+
+      if (existingEntry == null) {
+        print('Tentativa de remover uma carta que o usuário não possui.');
+        return; 
+      }
+
+      final int currentQuantity = existingEntry['quantity'] as int;
+
+      if (currentQuantity > quantity) {
+        await _supabase
+            .from('user_cards')
+            .update({'quantity': currentQuantity - quantity})
+            .eq('id', existingEntry['id'] as String);
+      } else {
+        await _supabase
+            .from('user_cards')
+            .delete()
+            .eq('id', existingEntry['id'] as String);
+      }
+    } catch (e) {
+      print('Erro ao remover carta do inventário: $e');
+      throw Exception('Não foi possível remover a carta.');
+    }
+  }
 }
