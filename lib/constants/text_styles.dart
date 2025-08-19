@@ -68,4 +68,17 @@ abstract class AppTextStyles {
       color: AppColors.textPrimary,
     );
   }
+
+  static TextTheme get textTheme {
+    final baseTheme = ThemeData.dark().textTheme;
+    final latoTheme = GoogleFonts.latoTextTheme(baseTheme);
+    return latoTheme.copyWith(
+      displayLarge: headLineLarge,
+      displayMedium: headLineMedium,
+      displaySmall: headLineSmall,
+      headlineMedium: headLineMedium,
+      headlineSmall: headLineSmall,
+      titleLarge: headLineSmall.copyWith(fontFamily: GoogleFonts.lato().fontFamily),
+    );
+  }
 }
