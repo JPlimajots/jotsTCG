@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:jotstcg/view/home_screen.dart';
+import 'package:jotstcg/view/login_screen.dart';
+import 'package:jotstcg/view/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:jotstcg/constants/colors.dart';
 import 'package:jotstcg/constants/text_styles.dart';
@@ -68,12 +71,13 @@ class MyApp extends StatelessWidget {
           floatingLabelStyle: AppTextStyles.bodyMedium.copyWith(color: AppColors.primary),
         ),
       ),
-      
-      home: const Scaffold(
-        body: Center(
-          child: Text('App TCG - Conectando ao Supabase!'),
-        ),
-      ),
+
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const SplashScreen(),
+        '/login': (context) => LoginScreen(),
+        '/home': (context) => HomeScreen(),
+      },
     );
   }
 }
