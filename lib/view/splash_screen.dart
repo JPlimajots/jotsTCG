@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:app_links/app_links.dart';
+import 'package:jotstcg/view/reset_password_screen.dart';
 import 'dart:async';
 
 class SplashScreen extends StatefulWidget {
@@ -11,12 +13,29 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashSscreenState extends State<SplashScreen> {
   StreamSubscription<AuthState>? _authSubscription;
+  StreamSubscription<Uri>? _linkSubscription;
+  final _appLinks = AppLinks();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initDeepLinks();
       _setupAuthListener();
+    });
+  }
+
+  Future<void> _initDeepLinks() async {
+    _linkSubscription = _appLinks.uriLinkStream.listen((uri) {
+      if (uri.path.contains('login-callback')) {
+        final accessToken = uri.fragment.split('&').firstWhere((param) => param.startsWith('access_token=')).substring('access_token='.length);
+
+        if (accessToken.isNotEmpty) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => ResetPasswordScreen(accessToken: accessToken)),
+          );
+        }
+      }
     });
   }
 
@@ -41,6 +60,7 @@ class _SplashSscreenState extends State<SplashScreen> {
   @override
   void dispose() {
     _authSubscription?.cancel();
+    _linkSubscription?.cancel();
     super.dispose();
   }
 

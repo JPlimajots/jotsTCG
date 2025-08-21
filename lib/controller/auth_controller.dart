@@ -54,4 +54,26 @@ class AuthController with ChangeNotifier {
       throw Exception('Não foi possível enviar o e-mail de redefinição.');
     }
   }
+
+  Future<void> updateUserPassword({
+    required String accessToken,
+    required String newPassword,
+  }) async {
+    try {
+      final response = await _supabase.auth.verifyOTP(
+        type: OtpType.recovery,
+        token: accessToken,
+      );
+      if (response.session == null) {
+        throw AuthApiException('Token de recuperação inválido ou expirado.');
+      }
+      await _supabase.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+      await _supabase.auth.signOut();
+    } catch (e) {
+      print('Erro ao redefinir senha: $e');
+      throw Exception('Não foi possível redefinir a senha.');
+    }
+  }
 }
