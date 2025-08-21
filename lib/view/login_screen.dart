@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jotstcg/controller/auth_controller.dart';
 import 'package:jotstcg/view/signup_screen.dart';
+import 'package:jotstcg/view/forgot_password_screen.dart';
 import '../constants/colors.dart';
 import '../constants/text_styles.dart';
-// TODO: Criar a tela de redefinição de senha
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -114,7 +114,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {
-                      // TODO: Navegar para a tela de redefinir a senha
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
+                      );
                     },
                     child: const Text('Esqueci minha senha'),
                   ),
