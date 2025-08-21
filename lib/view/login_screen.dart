@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:jotstcg/controller/auth_controller.dart';
+import 'package:jotstcg/view/signup_screen.dart';
 import '../constants/colors.dart';
 import '../constants/text_styles.dart';
-// TODO: Criar as telas de cadastro e redefinição de senha
+// TODO: Criar a tela de redefinição de senha
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -128,7 +129,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Cadastro
                 TextButton(
                   onPressed: () {
-                    // TODO: Navegar para a tela de cadastro
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SignupScreen()),
+                    );
                   },
                   child: const Text('Não tem uma conta? Cadastre-se'),
                 ),
