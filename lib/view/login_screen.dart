@@ -38,7 +38,9 @@ class _LoginScreenState extends State<LoginScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Falha no login: ${e.toString()}'),
+              content: Text(
+                'Falha no login. Verifique seu e-mail e senha. ${e.toString()}',
+                style: AppTextStyles.bodyMedium.copyWith(color: AppColors.textPrimary),),
               backgroundColor: AppColors.error,
             ),
           );
