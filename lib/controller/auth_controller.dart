@@ -9,7 +9,7 @@ class AuthController with ChangeNotifier {
 
   User? get currentUser => _supabase.auth.currentUser;
 
-  Stream<AuthState> get AuthStateChanges => _supabase.auth.onAuthStateChange;
+  Stream<AuthState> get authStateChanges => _supabase.auth.onAuthStateChange;
   
   Future<void> signUp({
     required String email,
@@ -44,5 +44,14 @@ class AuthController with ChangeNotifier {
 
   Future<void> signOut() async {
     await _supabase.auth.signOut();
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _supabase.auth.resetPasswordForEmail(email);
+    } catch (e) {
+      print('Erro ao enviar e-mail de redefinição: $e');
+      throw Exception('Não foi possível enviar o e-mail de redefinição.');
+    }
   }
 }
